@@ -1,0 +1,78 @@
+:root{
+  --bg:#fafafa;
+  --card:#ffffff;
+  --accent:#0b6cf0;
+  --muted:#6b7280;
+  --text:#0f172a;
+  --radius:12px;
+  --glass: rgba(15,23,42,0.04);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+}
+
+.app{
+  width:100%;
+  max-width:640px;
+  background:var(--card);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 10px 30px rgba(2,6,23,0.08);
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.title h1{margin:0;font-size:1.2rem}
+.subtitle{margin:0;font-size:0.85rem;color:var(--muted)}
+
+.actions{display:flex;gap:8px;align-items:center}
+.icon-btn{background:transparent;border:none;font-size:1.05rem;cursor:pointer;padding:8px;border-radius:10px}
+.install-btn{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:8px 10px;border-radius:10px;cursor:pointer}
+
+.new-task{display:flex;gap:8px;margin-bottom:12px}
+.new-task input{flex:1;padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:transparent;font-size:1rem;outline:none}
+.primary{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600}
+
+.controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:12px}
+.filters{display:flex;gap:6px}
+.filter{background:transparent;border:1px solid rgba(15,23,42,0.04);padding:6px 10px;border-radius:8px;cursor:pointer}
+.filter.active{background:var(--accent);color:white;border-color:var(--accent)}
+
+.counts{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:0.95rem}
+.ghost{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px}
+
+.tasks{display:flex;flex-direction:column;gap:10px;min-height:120px}
+.task{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;border:1px solid rgba(15,23,42,0.03);background:var(--glass)}
+.task .text{flex:1;word-wrap:break-word}
+.task.completed .text{text-decoration:line-through;opacity:0.6;color:var(--muted)}
+
+.checkbox{width:20px;height:20px;border-radius:6px;border:2px solid rgba(15,23,42,0.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700}
+.action-btn{background:transparent;border:none;cursor:pointer;padding:6px;border-radius:8px;font-size:0.95rem}
+
+.footer{margin-top:12px;text-align:center;color:var(--muted);font-size:0.85rem}
+
+/* Dark theme */
+body.theme-dark{
+  --bg:#0b1220;
+  --card:linear-gradient(180deg,#071024,#071824);
+  --accent:#06b6d4;
+  --muted:#94a3b8;
+  --text:#e6eef6;
+  --glass: rgba(255,255,255,0.02);
+}
+body.theme-dark .app{box-shadow:0 8px 30px rgba(2,6,23,0.6);border: 1px solid rgba(255,255,255,0.02)}
+
+/* Responsive */
+@media (max-width:520px){
+  .app{padding:14px}
+  .title h1{font-size:1rem}
+}

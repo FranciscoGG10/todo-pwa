@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>To-Do PWA</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-light">
+  <main class="app">
+    <header class="topbar">
+      <div class="title">
+        <h1>Lista de Tareas</h1>
+        <p class="subtitle">Simple · Rápida · Offline</p>
+      </div>
+      <div class="actions">
+        <button id="themeToggle" class="icon-btn" title="Cambiar tema">🌙</button>
+        <button id="installBtn" class="install-btn" hidden>Instalar</button>
+      </div>
+    </header>
+
+    <section class="new-task">
+      <input id="taskInput" type="text" placeholder="Agregar nueva tarea..." aria-label="Nueva tarea" />
+      <button id="addBtn" class="primary">Añadir</button>
+    </section>
+
+    <section class="controls">
+      <div class="filters" role="tablist" aria-label="Filtros de tareas">
+        <button class="filter active" data-filter="all">Todas</button>
+        <button class="filter" data-filter="active">Pendientes</button>
+        <button class="filter" data-filter="completed">Completadas</button>
+      </div>
+      <div class="counts">
+        <span id="leftCount">0 pendientes</span>
+        <button id="clearCompleted" class="ghost">Borrar completadas</button>
+      </div>
+    </section>
+
+    <section class="tasks" id="taskList" aria-live="polite">
+      <!-- Tareas renderizadas aquí -->
+    </section>
+
+    <footer class="footer">
+      <small>Funciona offline · PWA demo</small>
+    </footer>
+  </main>
+
+  <script src="app.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          await navigator.serviceWorker.register('sw.js');
+          console.log('Service Worker registrado');
+        } catch (err) {
+          console.error('Error registrando SW:', err);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Lista de Tareas PWA",
+  "short_name": "ToDoPWA",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b6cf0",
+  "description": "App To-Do demo que funciona offline y con modo claro/oscuro",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
