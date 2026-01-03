@@ -9,57 +9,63 @@
   <link rel="stylesheet" href="styles.css" />
 
   <script type="text/javascript">
-    // 1. Script de Monitoreo (Azure) - Versión Corregida (Sin conflicto de variables)
     var sdkInstance = "appInsightsSDK";
     window[sdkInstance] = "appInsights";
     var aiName = window[sdkInstance];
     
-    var aisdk = window[aiName] || function(cfg) {
-        var n = {
-            name: aiName,
-            config: cfg,
-            initialize: !0,
-            queue: [], // Inicializamos la cola aquí
-            version: 2
-        };
-        
-        var t = document, i = window, a = "script";
-        
-        // Carga asíncrona del script de Azure
-        setTimeout(function() {
-            var el = t.createElement(a);
-            el.src = cfg.url || "https://js.monitor.azure.com/scripts/b/ai.2.min.js";
-            var scriptTag = t.getElementsByTagName(a)[0];
-            scriptTag.parentNode.insertBefore(el, scriptTag);
-        });
-
-        try {
-            n.cookie = t.cookie;
-        } catch (e) {}
-
-        function r(methodName) {
-            n[methodName] = function() {
-                var args = arguments; // CORRECCIÓN: Usamos 'args' en lugar de 'n' para no chocar
-                n.queue.push(function() {
-                    n[methodName].apply(n, args);
-                });
-            }
+    var aisdk = window[aiName] || function(e) {
+      var n = {
+        name: aiName,
+        config: e,
+        initialize: !0
+      };
+      var t = document, i = window, a = "script";
+      setTimeout(function() {
+        var e = t.createElement(a);
+        e.src = n.config.url || "https://js.monitor.azure.com/scripts/b/ai.2.min.js";
+        var i = t.getElementsByTagName(a)[0];
+        i.parentNode.insertBefore(e, i)
+      });
+      try { n.cookie = t.cookie } catch (e) {}
+      
+      n.queue = [];
+      n.version = 2;
+      
+      function r(n) {
+        e[n] = function() {
+          var t = arguments;
+          e.queue.push(function() {
+            e[n].apply(e, t)
+          })
         }
-
-        var methods = ["Event", "PageView", "Exception", "Trace", "DependencyData", "Metric", "PageViewPerformance", "startTrackPage", "stopTrackPage", "startTrackEvent", "stopTrackEvent", "addTelemetryInitializer", "setAuthenticatedUserContext", "clearAuthenticatedUserContext", "flush"];
-        
-        for (var u = 0; u < methods.length; u++) {
-            r("track" + methods[u]);
-        }
-        
-        return n;
+      }
+      
+      // Lista de métodos permitidos
+      var methods = [
+        "Event", "PageView", "Exception", "Trace", "DependencyData", "Metric", 
+        "PageViewPerformance", "startTrackPage", "stopTrackPage", "startTrackEvent", 
+        "stopTrackEvent", "addTelemetryInitializer", "setAuthenticatedUserContext", 
+        "clearAuthenticatedUserContext", "flush"
+      ];
+      
+      // Bucle simple para registrar los métodos
+      var e = n; 
+      for (var u = 0; u < methods.length; u++) {
+        r("track" + methods[u]);
+      }
+      
+      return e;
     }({
-        // Tu cadena de conexión (Correcta, sin barras al final)
-        connectionString: "InstrumentationKey=dee1952c-f53a-4ae5-880b-07f832ab375e;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com;ApplicationId=e3b36787-54a6-4d72-ba70-fb67e83e0ccc"
+      // --- CONFIGURACIÓN CORREGIDA ---
+      // 1. Agregamos la llave explícitamente para evitar el error 400
+      instrumentationKey: "dee1952c-f53a-4ae5-880b-07f832ab375e",
+      
+      // 2. Cadena de conexión limpia (sin barras al final)
+      connectionString: "InstrumentationKey=dee1952c-f53a-4ae5-880b-07f832ab375e;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com;ApplicationId=e3b36787-54a6-4d72-ba70-fb67e83e0ccc"
     });
-    
+
     window[aiName] = aisdk;
-    aisdk.trackPageView(); // Envía la visita a Azure
+    aisdk.trackPageView(); // Envía la visita
 
     // 2. Registro del Service Worker (PWA)
     if ('serviceWorker' in navigator) {
